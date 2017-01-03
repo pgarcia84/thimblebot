@@ -1,0 +1,46 @@
+<html>
+<head>
+	<title>ThimbleBot WiFi Control</title>
+	<script src="jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="controls.css">
+	<!--
+		CSS Based remote interface based on the demo from the following source:
+		http://joelb.me/blog/2012/maintaining-css-style-states-using-infinite-transition-delays/
+	-->
+</head>
+<body>
+	<div class="remote">
+		<img src="logo_white_remote.png">
+		<button class="up d" id="1"></button>
+		<button class="down d" id="2"></button>
+		<button class="left d" id="3"></button>
+		<button class="right d" id="4"></button>
+		
+		<div class="advanced">
+			<label class="switch switch-yes-no">
+				<input class="switch-input" type="checkbox" />
+				<span class="switch-label" data-on="On" data-off="Off"></span> 
+				<span class="switch-handle"></span> 
+			</label>
+			<span class="switch-title">Autonomous</span>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$(".d").click(function(){
+				var d = $(this).attr('id'); // get id value (i.e. forward, backward, left, or right)
+				// send HTTP GET request to the IP address with the parameter "move" and value "p", then execute the function
+				$.get("http://192.168.5.1:80/", {move:d}); // execute get request
+			});
+			$(".switch-input").click(function(){
+			    if($(this).is(":checked")){
+					$.get("http://192.168.5.1:80/", {move:"5"}); // execute get request
+				} else {
+					$.get("http://192.168.5.1:80/", {move:"6"}); // execute get request
+				}
+			});
+		});
+	</script>
+</body>
+</html>
